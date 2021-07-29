@@ -18,6 +18,7 @@ node{
 	  
     
     
+    /*
     stage('ExecuteSonarQubeReport'){
     
     sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -57,7 +58,7 @@ node{
     891XXXX776''', subject: 'Build Over!!!', to: 'hanifdevops04@gmail.com,rajbhanu55@gmail.com,lky8794@gmail.com'
 	  }
 	
-    
+    */
     
  }
 	
