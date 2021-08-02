@@ -18,7 +18,7 @@ node("slaves"){
 	  
     
     
-    /*
+   
     stage('ExecuteSonarQubeReport'){
     
     sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -46,7 +46,7 @@ node("slaves"){
 	  }
 	
 	
-  
+  /*
     stage('SendEmailNotification')
 	  {
 	  
