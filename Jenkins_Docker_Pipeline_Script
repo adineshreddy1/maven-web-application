@@ -1,0 +1,46 @@
+node {
+   
+   def buildNumber = BUILD_NUMBER
+   
+    stage("Download code from github"){
+    
+     git credentialsId: '5b78504b-193c-4297-8a15-1b0c515af572', url: 'https://github.com/hanifsoftwaresolutions-ec-projects/maven-web-application.git'  
+    
+    }
+    
+    stage("Build"){
+      
+        def mavenHome = tool name: "Maven3.6.3"
+      
+        sh "${mavenHome}/bin/mvn clean package"
+   
+    }
+  
+    stage("Build Docker Image"){
+       
+        sh "docker build -t hanifdockerrepo/maven-web-app-docker:${buildNumber} ."
+       
+    }
+   
+    stage("Docker Login and Push"){
+       
+        sh "docker login -u hanifdockerrepo -p 9966355655"
+       
+        sh "docker push hanifdockerrepo/maven-web-app-docker:${buildNumber}"
+   
+    }
+   
+    stage("Deploy Application as Docker Container in docker deployment server"){
+       
+        sshagent(['e73850c0-a96a-4628-8e6c-893ba91f5ce5']) {
+    
+          sh "ssh -o StrictHostKeyChecking=no ubuntu@3.109.216.191 docker rm -f maven-web-app-container || true"
+        
+          sh "ssh -o StrictHostKeyChecking=no ubuntu@3.109.216.191 docker run -d -p 9800:8080 --name maven-web-app-container hanifdockerrepo/maven-web-app-docker:${buildNumber}"
+        
+        }
+		
+    }
+
+    
+}
