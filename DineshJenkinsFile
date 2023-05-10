@@ -18,8 +18,11 @@ pipeline {
       parameterizedCron(env.BRANCH_NAME == "master" ? "0 12 * * * % RUN_E2E=true;MODE=parallel;SHOULD_BUILD_RELEASE=no" : "")
   }
   */
-  properties {
-    properties([pipelineTriggers([pollSCM('* * * * *')])])
+  //   properties {
+  //     properties([pipelineTriggers([pollSCM('* * * * *')])])
+  //   }
+  triggers {
+    cron('* * * * *')
   }
 
   options {
@@ -90,4 +93,5 @@ pipeline {
        }
       }
     */
+  }
 }
